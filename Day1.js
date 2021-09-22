@@ -64,6 +64,12 @@ function htmlCreator1(array) { // method to return a html string
     return ul1 + y + ul2; // return string + wrapping
 }
 
+function htmlCreator2(array) {
+    return "<ul>"+ array.map(name => `<li>${name}</li>`).join("\n") +"</ul>";
+}
+
+console.log(htmlCreator2(arraytest));
+
 console.log(htmlCreator1(arraytest));
 
 // 9
