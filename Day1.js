@@ -104,7 +104,7 @@ console.log(x);
 // 10
 
 var msgPrinter = function(msg,delay){
-    setTimeout(() => console.log(msg),delay); //Observe an arrow-function
+    setTimeout(() => console.log(msg),delay);
 };
 //console.log("aaaaaaaaaa"); // 1st
 //msgPrinter ("bbbbbbbbbb",2000); // 5th
