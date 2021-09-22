@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <h2 id="title"></h2>
+</head>
+<body>
+<script>
+    document.getElementById("title").innerText= "JS is COOL"
+</script>
+<script>
+    function spam(str) {
+        let x = "";
+        for (let i = 0; i < 1000; i++) {
+            x += "<br>";
+        }
+        return x + str;
+    }
+    function htmlCreator1(array) { // method to return a html string
+        let ul1 = "<ul>"; // front
+        let ul2 ="</ul>"; // end
+        let x = array.map(name => "<li>" + name + "</li>"); // wrap all elements in array in <li> </li>
+        let y = ""; // empty string to build on
+        x.sort();
+        x.forEach(name => y += name); // build string
+
+        return ul1 + y + ul2; // return string + wrapping
+    }
+
+    const arraytest = ["Lars", "Jan", "Peter", "Bo", "Frederik"];
+
+    const element = document.createElement('div');
+    element.innerHTML = htmlCreator1(arraytest);
+    document.body.appendChild(element);
+
+
+</script>
+
+</body>
+</html>

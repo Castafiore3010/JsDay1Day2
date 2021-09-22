@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 id="val">0</h1>
+<button id="btn">Start counting</button>
+
+<script>
+  const h1 = document.getElementById("val")
+  const btn = document.getElementById("btn")
+  let interval=null;
+  let count = 1;
+  btn.onclick = ()=>{
+    if(!interval) {
+      interval = setInterval(() => h1.innerText = count++, 1000)
+      btn.innerText = "Stop Counting"
+    } else{
+      clearInterval(interval);
+      interval = null;
+      btn.innerText = "Start Counting"
+    }
+  }
+</script>
+
+
+</body>
+</html>
