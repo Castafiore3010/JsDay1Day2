@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        table {
+            border-collapse: collapse;
+        }
+        thead {
+            cursor: pointer;
+        }
+        td {
+            text-align: center;
+            border-bottom: 2px solid black;
+
+
+
+
+
+
+        }
+        .searchTable tbody td {
+            border-bottom: 2px solid black;
+            border-right: 2px solid black;
+
+        }
+
+
+
+
+        .form-container {
+            margin-right: auto;
+            margin-left: auto;
+            width: 55%;
+            alignment: center;
+            align-items: center;
+
+
+
+
+        }
+
+        .searchTable thead th {
+            width: 250px;
+
+        }
+        .searchTable {
+            display: block;
+            border-collapse: collapse;
+
+        }
+
+        .form-container table  {
+            height: 850px;
+            width: 1050px;
+            background:rgba(255,255,255,.1);
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            border-top: 1px solid rgba(255,255,255,.3);
+            border-left: 1px solid rgba(255,255,255,.3);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            overflow-y: scroll;
+            margin-left: auto;
+            margin-right: auto;
+            position: absolute;
+            left: 22.5%;
+            top: 115%;
+
+
+        }
+
+
+        .form-container form{
+            height: 500px;
+            width: 1050px;
+            background:rgba(255,255,255,.1);
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            border-top: 1px solid rgba(255,255,255,.3);
+            border-left: 1px solid rgba(255,255,255,.3);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            z-index: 1;
+        }
+
+        .form-container form h3{
+            font-size: 30px;
+            padding: 30px 0;
+            color:black;
+        }
+
+        .form-container form input{
+            outline: none;
+            border: none;
+            height: 40px;
+            width: 25%;
+            background: rgba(0,0,0,.1);
+            color: rgba(255,255,255,.7);
+            box-shadow: 0 0 5px rgba(0,0,0,.5) inset;
+            font-size: 17px;
+            padding: 0 10px;}
+        .form-container form input[type="checkbox"] {
+            box-shadow: 0 0 1px rgba(0,0,0,.3) ;
+            height: 20px;
+            width: 20px;
+
+        }
+        .form-container form input[type="submit"]{
+            margin-top: 2%;
+            width: 100px;
+            height: 50px;
+            cursor: pointer;
+
+
+        }
+
+
+
+
+        .form-container form input[type="submit"]:hover {
+            letter-spacing: 0.5px;
+        }
+
+
+        label {
+            color: black;
+            font-family: Arial;
+            background: rgba(255, 255, 255, .3);
+            margin-right: 10px;
+            width: 100px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<p id="load"></p>
+
+<div id="form-container"></div>
+<table id="searchTable">
+    <caption>Cars</caption>
+    <thead>
+    <tr>
+        <th id="idHeader">ID</th>
+        <th id="yearHeader">YEAR</th>
+        <th id="makeHeader">MAKE</th>
+        <th id="modelHeader">MODEL</th>
+        <th id="priceHeader">PRICE</th>
+    </tr>
+    </thead>
+    <tbody id ="tableBody1">
+
+    </tbody>
+</table>
+
+<form>
+    <input type="text" placeholder="Enter parameter" id="parameter" style="margin-top: 10px">
+    <input type="submit" value="Price less than"  id="submit" style="margin-top: 10px">
+    <input type="submit" value="Made by" id="submit2">
+    <input type="submit" value="Reset" id="reset" style="margin-right: 100%;margin-top: 10px">
+
+
+
+</form>
+
+
+
+
+
+<script>
+
+    const initialCarsUntouchable = [
+        { id: 1, year: 1997, make: 'Ford', model: 'E350', price: 3000 },
+        { id: 2, year: 1999, make: 'Chevy', model: 'Venture', price: 4900 },
+        { id: 3, year: 2000, make: 'Chevy', model: 'Venture', price: 5000 },
+        { id: 4, year: 1996, make: 'Jeep', model: 'Grand Cherokee', price: 4799 },
+        { id: 5, year: 2005, make: 'Volvo', model: 'V70', price: 44799 }
+    ];
+
+    const cars = [
+    { id: 1, year: 1997, make: 'Ford', model: 'E350', price: 3000 },
+    { id: 2, year: 1999, make: 'Chevy', model: 'Venture', price: 4900 },
+    { id: 3, year: 2000, make: 'Chevy', model: 'Venture', price: 5000 },
+    { id: 4, year: 1996, make: 'Jeep', model: 'Grand Cherokee', price: 4799 },
+    { id: 5, year: 2005, make: 'Volvo', model: 'V70', price: 44799 }
+  ];
+
+    let priceClickCounter = 0;
+    let modelClickCounter = 0;
+    let makeClickCounter = 0;
+    let yearClickCounter = 0;
+    let idClickCounter = 0;
+
+
+
+  function makeTable(array) {
+      return array.map(car =>
+          `<tr><td>${car.id}</td><td>${car.year}</td><td>${car.make}</td><td>${car.model}</td><td>${car.price}</td></tr>`).join("");
+  }
+
+
+
+  function initialize(evt, array) {
+      evt.preventDefault();
+      let table = makeTable(array);
+      document.getElementById('tableBody1').innerHTML = table;
+  }
+  document.body.onload =
+  document.getElementById('load').onclick = (evt) => initialize(evt, cars);
+
+  document.getElementById('priceHeader').onclick = (evt) => {
+      evt.preventDefault();
+      if (priceClickCounter % 2 === 0) {
+
+
+          let x = makeTable(cars.sort((first, second) => first.price - second.price));
+          document.getElementById('tableBody1').innerHTML = x;
+          priceClickCounter++;
+      } else {
+          let x = makeTable(cars.sort((first, second) => second.price - first.price));
+          document.getElementById('tableBody1').innerHTML = x;
+          priceClickCounter++;
+      }
+
+  }
+    document.getElementById('modelHeader').onclick = (evt) => {
+        evt.preventDefault();
+        if (modelClickCounter % 2 === 0) {
+
+            let x = makeTable(cars.sort(function(a, b){
+                let x = a.model.toLowerCase();
+                let y = b.model.toLowerCase();
+                if (x < y) {return -1;}
+                if (x > y) {return 1;}
+                return 0;
+            }));
+
+
+            document.getElementById('tableBody1').innerHTML = x;
+            modelClickCounter++;
+        } else {
+            let x = makeTable(cars.reverse());
+            document.getElementById('tableBody1').innerHTML = x;
+            modelClickCounter++;
+        }
+
+    }
+
+    document.getElementById('makeHeader').onclick = (evt) => {
+      evt.preventDefault();
+      if (makeClickCounter % 2 === 0) {
+          let x = makeTable(cars.sort(function (a, b) {
+              let x = a.make.toLowerCase();
+              let y = b.make.toLowerCase();
+              if (x < y ) {return -1;}
+              if (x > y) {return 1;}
+              return 0;
+          }));
+          document.getElementById('tableBody1').innerHTML = x;
+          makeClickCounter++;
+      } else {
+          let x = makeTable(cars.reverse());
+          document.getElementById('tableBody1').innerHTML = x;
+          makeClickCounter++;
+      }
+    }
+
+    document.getElementById('yearHeader').onclick = (evt) => {
+      evt.preventDefault();
+      if (yearClickCounter % 2 === 0) {
+          let x = makeTable(cars.sort((first, second) => first.year - second.year));
+          document.getElementById('tableBody1').innerHTML = x;
+          yearClickCounter++;
+      } else {
+          let x = makeTable(cars.reverse());
+          document.getElementById('tableBody1').innerHTML = x;
+          idClickCounter = 0;
+      }
+    }
+
+    document.getElementById('idHeader').onclick = (evt) => {
+      evt.preventDefault();
+      let x = makeTable(cars.reverse());
+      document.getElementById('tableBody1').innerHTML = x;
+    }
+
+
+
+
+
+
+  document.getElementById('submit').onclick = (evt) => {
+      evt.preventDefault();
+      const price = document.getElementById('parameter').value;
+      let x = makeTable(cars.filter(car => car.price < price));
+      document.getElementById('tableBody1').innerHTML = x;
+
+  }
+
+  document.getElementById('submit2').onclick = (evt) => {
+      evt.preventDefault();
+      const madeBy = document.getElementById('parameter').value.toLowerCase();
+      let x = makeTable(cars.filter(car => car.make.toLowerCase() === madeBy))
+      document.getElementById('tableBody1').innerHTML = x;
+  }
+  document.getElementById('reset').onclick = (evt) => {
+      evt.preventDefault();
+      let table = makeTable(initialCarsUntouchable);
+      document.getElementById('tableBody1').innerHTML = table;
+      document.getElementById('parameter').value = "";
+      priceClickCounter = 0;
+      modelClickCounter = 0;
+      makeClickCounter = 0;
+      yearClickCounter = 0;
+      idClickCounter = 0;
+
+  }
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

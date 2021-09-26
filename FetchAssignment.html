@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        button {
+            cursor: pointer;
+        }
+        thead {
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        tr td{
+            border-bottom: 2px solid black;
+
+
+        }
+        td {
+            text-align: center;
+
+
+
+
+        }
+        .searchTable tbody td {
+            border-bottom: 2px solid black;
+            border-right: 2px solid black;
+
+        }
+
+
+
+
+        .form-container {
+            margin-right: auto;
+            margin-left: auto;
+            width: 55%;
+            alignment: center;
+            align-items: center;
+
+
+
+
+        }
+
+        .searchTable thead th {
+            width: 250px;
+
+        }
+        .searchTable {
+            display: block;
+            border-collapse: collapse;
+
+        }
+
+        .form-container table  {
+            height: 850px;
+            width: 1050px;
+            background:rgba(255,255,255,.1);
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            border-top: 1px solid rgba(255,255,255,.3);
+            border-left: 1px solid rgba(255,255,255,.3);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            overflow-y: scroll;
+            margin-left: auto;
+            margin-right: auto;
+            position: absolute;
+            left: 22.5%;
+            top: 115%;
+
+
+        }
+
+
+        .form-container form{
+            height: 500px;
+            width: 1050px;
+            background:rgba(255,255,255,.1);
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            border-top: 1px solid rgba(255,255,255,.3);
+            border-left: 1px solid rgba(255,255,255,.3);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            z-index: 1;
+        }
+
+        .form-container form h3{
+            font-size: 30px;
+            padding: 30px 0;
+            color:black;
+        }
+
+        .form-container form input{
+            outline: none;
+            border: none;
+            height: 40px;
+            width: 25%;
+            background: rgba(0,0,0,.1);
+            color: rgba(255,255,255,.7);
+            box-shadow: 0 0 5px rgba(0,0,0,.5) inset;
+            font-size: 17px;
+            padding: 0 10px;}
+        .form-container form input[type="checkbox"] {
+            box-shadow: 0 0 1px rgba(0,0,0,.3) ;
+            height: 20px;
+            width: 20px;
+
+        }
+        .form-container form input[type="submit"]{
+            margin-top: 2%;
+            width: 100px;
+            height: 50px;
+            cursor: pointer;
+
+
+        }
+
+
+
+
+        .form-container form input[type="submit"]:hover {
+            letter-spacing: 0.5px;
+        }
+
+
+        label {
+            color: black;
+            font-family: Arial;
+            background: rgba(255, 255, 255, .3);
+            margin-right: 10px;
+            width: 100px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<input type="text" id="input" placeholder="Enter id">
+<button id="getUser">Get User</button>
+<button id="getAll">Get All</button>
+
+<p id="name"></p>
+<p id="phone"></p>
+<h3 id="address"></h3>
+<p id="street"></p>
+<p id="city"></p>
+<p id="zip"></p>
+<p id="geo"></p>
+
+<div id="form-container"></div>
+<table id="searchTable">
+    <thead>
+    <tr>
+        <th id="nameHeader"></th>
+        <th id="phoneHeader"></th>
+
+    </tr>
+    </thead>
+    <tbody id ="tableBody1">
+
+    </tbody>
+</table>
+
+<script>
+    function makeTable(array) {
+        return array.map(person =>
+            `<tr><td>${person.name}</td><td>${person.phone}</td></tr>`).join("");
+    }
+
+    document.getElementById('getAll').onclick = (evt) => {
+        evt.preventDefault();
+        let url ="https://jsonplaceholder.typicode.com/users";
+        fetch(url)
+            .then(res => res.json()) //for this exercise, just do this
+            .then(data => {
+                // Inside this callback, AND ONLY HERE the response data is available
+                document.getElementById('nameHeader').innerHTML ="Name";
+                document.getElementById('phoneHeader').innerHTML ="Phone"
+                const people = makeTable(data);
+                document.getElementById('tableBody1').innerHTML = people;
+
+
+                /* data now contains the response, converted to JavaScript
+                   Observe the output from the log-output above
+                   Now, just build your DOM changes using the data inside this block*/
+            });
+    }
+
+    document.getElementById('getUser').onclick = (evt) => {
+        evt.preventDefault();
+        let id = document.getElementById('input').value;
+        let url = "https://jsonplaceholder.typicode.com/users/";
+        fetch(url+id)
+            .then(res => res.json()) //for this exercise, just do this
+            .then(data => {
+                // Inside this callback, AND ONLY HERE the response data is available
+                document.getElementById('name').innerHTML ="Name : " +data.name
+                document.getElementById('phone').innerHTML ="Phone : "+ data.phone;
+                document.getElementById('address').innerHTML ="\nAddress";
+                document.getElementById('street').innerHTML ="Street : "+ data.address.street;
+                document.getElementById('city').innerHTML ="City : "+ data.address.city;
+                document.getElementById('zip').innerHTML ="Zip : "+ data.address.zipcode;
+                document.getElementById('geo').innerHTML ="Geo(lat,lng) : "+ data.address.geo.lat + ", " + data.address.geo.lng;
+
+                /* data now contains the response, converted to JavaScript
+                   Observe the output from the log-output above
+                   Now, just build your DOM changes using the data inside this block*/
+            });
+
+    }
+
+</script>
+</body>
+</html>

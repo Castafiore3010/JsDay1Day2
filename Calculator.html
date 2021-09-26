@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    #container{
+      width: 226px;
+      height: 274px;
+      border: 3px solid darkblue;
+      margin: auto
+    }
+    .t1, .t4{
+      border: 1px solid black;
+      height: 48px;
+      margin-left: 3px;
+      margin-top: 3px;
+      display: inline-block;
+      text-align: center;
+      line-height: 48px;
+    }
+    .t1{
+      width: 48px;
+    }
+    .t4{
+      width: 219px;
+    }
+  </style>
+
+
+</head>
+<body>
+<div id="container">
+  <div id="display" class="t4"></div>
+  <div id="buttons">
+    <div class="t1">7</div>
+    <div class="t1">8</div>
+    <div class="t1">9</div>
+    <div class="t1">/</div>
+
+    <div class="t1">4</div>
+    <div class="t1">5</div>
+    <div class="t1">6</div>
+    <div class="t1">*</div>
+
+    <div class="t1">1</div>
+    <div class="t1">2</div>
+    <div class="t1">3</div>
+    <div class="t1">-</div>
+
+    <div class="t1">0</div>
+    <div class="t1">.</div>
+    <div class="t1">+</div>
+    <div id="calculate"class="t1">=</div>
+  </div>
+</div>
+<button id ="reset"style="margin-left: 33%;margin-top: 10px">Reset</button>
+
+<p id="help1"></p>
+<script>
+
+
+
+  document.getElementById('reset').onclick = (evt) => {
+    evt.preventDefault();
+    document.getElementById('display').innerHTML = "0";
+    document.getElementById('help1').innerHTML = "0";
+  }
+
+  document.getElementById('buttons').onclick = (evt) => {
+    evt.preventDefault();
+    let buttonTarget = document.getElementById('buttons');
+    buttonTarget.onclick = function (event) {
+      let x = event.target.innerHTML;
+      if (x.length === 1) {
+        let y = document.getElementById('display');
+        let current = y.innerHTML;
+        if (current === "0") {
+          y.innerHTML = x;
+
+        } else {
+          y.innerHTML = current += x;
+        }
+      }
+    }
+  }
+  function allOperators(str) {
+    let array1 = []
+    let count1 = 0;
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === "+" || str[i] === "-" || str[i] ==="*" || str[i] === "/") {
+        array1[count1] = str[i];
+        count1++;
+      }
+    }
+    return array1;
+  }
+
+ 
+
+  function operatorsChosen() {
+    let x = document.getElementById('display').innerHTML;
+    let resultStr = x.split(/[+-/*]+/g);
+    document.getElementById('help1').innerHTML = resultStr.toString();
+
+
+    let calculatedResult = resultStr.reduce(function(prev,cur,index) {
+      let operators = allOperators(x);
+
+      document.getElementById('help1').innerHTML = operators.toString();
+
+      if (operators[index -1] === "+") {
+        return parseFloat(prev) + parseFloat(cur);
+      }
+      if (operators[index-1] === "-") {
+        return parseFloat(prev) - parseFloat(cur);
+      }
+      if (operators[index -1] ==="*") {
+        return parseFloat(prev) * parseFloat(cur);
+      }
+      if (operators[index -1] ==="/") {
+        return parseFloat(prev) / parseFloat(cur);
+      }
+
+
+    });
+
+
+    document.getElementById('display').innerHTML = calculatedResult;
+
+  }
+
+    document.getElementById('calculate').onclick = (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      operatorsChosen();
+
+  }
+</script>
+
+<p id="helper"></p>
+
+</body>
+</html>

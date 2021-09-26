@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    .myDiv {
+      width: 100px;
+      height: 50px;
+      background-color: yellow;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 10px;
+
+      cursor: pointer;
+
+
+
+    }
+
+    #p {
+      animation: ease-in ;
+    }
+    #outer {
+      padding: 10px;
+      width: 400px;
+      height: 750px;
+      background-color: black;
+
+
+
+
+
+    }
+
+  </style>
+</head>
+<body>
+<div id ="outer" onclick="singleHandle()">
+
+<div id ="1" class="myDiv" ></div>
+<div id ="2" class="myDiv" ></div>
+<div id ="3" class="myDiv" ></div>
+<div id ="4" class="myDiv" ></div>
+<div id ="5" class="myDiv" ></div>
+<div id ="6" class="myDiv" ></div>
+<div id ="7" class="myDiv" ></div>
+<div id ="8" class="myDiv" ></div>
+<div id ="9" class="myDiv" ></div>
+<div id ="10" class="myDiv" ></div>
+<div id ="11" class="myDiv" ></div>
+<div id ="12" class="myDiv" ></div>
+
+  <p id="p"></p>
+
+</div>
+
+
+
+
+<script>
+  function clickPrint(id) {
+   let x = document.getElementById(id);
+   let p = document.getElementById("p");
+   p.style.color = 'cyan';
+   p.innerText = "Hello from " + x.id;
+  }
+
+  function singleHandle() {
+    let x = document.getElementById("outer");
+    x.onclick = function (event) {
+      let y = event.target.id;
+      let p = document.getElementById("p");
+      p.style.color = 'magenta';
+      p.innerText = "Hello from " + y;
+    }
+  }
+
+</script>
+</body>
+</html>

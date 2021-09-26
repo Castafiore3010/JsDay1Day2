@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    .divTest {
+      height: 200px;
+      width: 200px;
+      margin: 10px;
+
+    }
+    .button {
+      margin: 10px;
+
+    }
+  </style>
+
+
+</head>
+<body>
+
+<div id="1" class="divTest"></div>
+<div id="2" class="divTest"></div>
+<div id="3" class="divTest"></div>
+<button id="button1" class="button" onclick="colorDivs()">COLORIZE</button>
+<button class="button" onclick="reset()">RESET</button>
+
+
+<script>
+  function init() {
+    const x = document.getElementsByTagName("DIV");
+    for (let i = 0; i < x.length; i++) {
+      x[i].style.backgroundColor = 'red';
+    }
+  }
+  window.onload = init;
+</script>
+<script>
+  function colorDivs() {
+    const x = document.getElementById("1");
+    const y = document.getElementById("2");
+    const z = document.getElementById("3");
+
+    x.style.backgroundColor = "blue";
+    y.style.backgroundColor = "yellow";
+    z.style.backgroundColor = "black";
+  }
+
+  function reset() {
+    init();
+  }
+</script>
+
+</body>
+</html>

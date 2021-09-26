@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+
+<button id="loadButton" style ="margin-right: 10px; margin-bottom: 10px">LOAD DATA</button>
+<div id="list1"></div>
+<form>
+    <input type="text" placeholder="Enter name" id="newName" style="margin-right: 100%; margin-top: 10px">
+    <input type="submit" value="Add name"  id="submit" style="margin-top: 10px">
+    <input type="submit" value="Remove first" id="removeFirst">
+    <input type="submit" value="Remove Last" id="removeLast">
+</form>
+
+<h1 id="h11"></h1>
+
+
+<script>
+    const names = ["Lars", "Jan", "Peter", "Bo", "Frederik"];
+
+    function initialize() {
+        const list = names.map(name => `<li>${name}</li>`).join("");
+        document.getElementById('list1').innerHTML = list;
+    }
+
+
+    document.getElementById('loadButton').onclick = ()=>initialize();
+
+    document.getElementById('submit').onclick = (evt) => addName(evt);
+
+    document.getElementById('removeFirst').onclick = (evt) => removeFirst(evt);
+
+    document.getElementById('removeLast').onclick = (evt) => removeLast(evt);
+
+    function removeFirst(evt) {
+        evt.preventDefault();
+        document.getElementById('list1').firstChild.remove();
+        names.shift();
+
+    }
+
+    function removeLast(evt) {
+        evt.preventDefault();
+        document.getElementById('list1').lastChild.remove();
+        names.pop();
+    }
+
+
+
+    function addName(evt) {
+        evt.preventDefault();
+        const name = document.getElementById('newName').value;
+        const newElement = document.createElement('li');
+        newElement.appendChild(document.createTextNode(name));
+        const ul = document.getElementById('list1').appendChild(newElement);
+        names.push(name);
+
+
+
+    }
+
+</script>
+</body>
+</html>

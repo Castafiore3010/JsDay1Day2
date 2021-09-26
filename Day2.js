@@ -233,7 +233,8 @@ function run() {
 //b
         const numbers = [2, 3, 67, 33];
 
-        let sum = numbers.reduce((prev, cur) => prev + cur);
+        let init2 = 0;
+        let sum = numbers.reduce((prev, cur) => prev + cur, init2);
         console.log("SUM OF NUMBER ARRAY");
         console.log(sum);
 
