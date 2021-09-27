@@ -34,7 +34,7 @@
 <button type="button" class="btn btn-primary" id="btn-add-user">
   Add new user
 </button>
-<button type="button" class="btn btn-primary" id="btn-get-user">
+<button type="button" class="btn btn-secondary" id="btn-get-user">
   Get user
 </button>
 <input type="text" placeholder="Enter id" id="input-id">
@@ -168,24 +168,14 @@
     user.gender = document.getElementById("input-gender").value
     user.email = document.getElementById("input-email").value
 
-    const options = {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        age: user.age,
-        name: user.name,
-        gender: user.gender,
-        email: user.email
-      })
-    }
+    const options = makeOptions("POST", user);
+
     fetch(URL, options);
     //TODO Save user on server  --> We will do this in the class
     //Figure out how to update local data
 
     fetchUsers();
+
 
 
   }
@@ -227,5 +217,22 @@
     }
     return res.json()
   }
+
+
+  function makeOptions(method, body) {
+    const opts = {
+      method: method,
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      }
+    }
+    if (body) { //Observe how we can add new fields to an object when needed
+      opts.body = JSON.stringify(body);
+    }
+    return opts;
+  }
+
+
 
 </script>
