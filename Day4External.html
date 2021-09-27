@@ -37,6 +37,9 @@
 <button type="button" class="btn btn-secondary" id="btn-get-user">
   Get user
 </button>
+<button type="button" class="btn btn-secondary" id="btn-del-user">
+  Delete user
+</button>
 <input type="text" placeholder="Enter id" id="input-id">
 <p id="add-error-msg" class="alert alert-danger" style="max-width: 50%;display: none;" role="alert"></p>
 
@@ -96,6 +99,7 @@
     document.getElementById("btn-save").onclick = saveUser
     document.getElementById("btn-add-user").onclick = makeNewUser
     document.getElementById('btn-get-user').onclick = getUser
+    document.getElementById('btn-del-user').onclick = deleteUser
     document.getElementById('bodyTest').onload = fetchUsers
   }
   setUpHandlers()
@@ -125,6 +129,25 @@
     })
   }
 
+  function deleteUser() {
+    let id = document.getElementById('input-id').value;
+    let options = makeOptions("DELETE");
+    if (id === "") {
+      alert("Please enter id")
+    } else {
+
+      fetch(URL + "/" + id, options)
+              .then(handleHttpErrors)
+              .then(() => {
+                fetchUsers();
+              }).catch(err => {
+        console.log(err);
+
+      })
+    }
+
+  }
+
   function getUser() {
 
     let id = document.getElementById('input-id').value;
@@ -149,6 +172,19 @@
 
   }
 
+  function updateUser(user) {
+    let id = document.getElementById('input-id').value;
+    if (id === "") {
+      alert("Please enter id")
+    } else {
+
+      let data
+      let options = makeOptions()
+
+    }
+
+  }
+
   function showModal(user) {
     const myModal = new bootstrap.Modal(document.getElementById('user-modal'))
     document.getElementById("modal-title").innerText = user.id ? "Edit User" : "Add User"
@@ -167,14 +203,21 @@
     user.name = document.getElementById("input-name").value
     user.gender = document.getElementById("input-gender").value
     user.email = document.getElementById("input-email").value
+    let options;
+    if (document.getElementById('user-id').innerText.length < 1) {
+      options = makeOptions("POST", user);
+      fetch(URL, options).then(handleHttpErrors).then(() => fetchUsers());
+    } else {
+      options = makeOptions("PUT", user);
+      fetch(URL + "/" + user.id, options).then(handleHttpErrors).then(() => fetchUsers());
+    }
 
-    const options = makeOptions("POST", user);
 
-    fetch(URL, options);
+
     //TODO Save user on server  --> We will do this in the class
     //Figure out how to update local data
 
-    fetchUsers();
+
 
 
 
