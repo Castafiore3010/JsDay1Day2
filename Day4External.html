@@ -172,19 +172,6 @@
 
   }
 
-  function updateUser(user) {
-    let id = document.getElementById('input-id').value;
-    if (id === "") {
-      alert("Please enter id")
-    } else {
-
-      let data
-      let options = makeOptions()
-
-    }
-
-  }
-
   function showModal(user) {
     const myModal = new bootstrap.Modal(document.getElementById('user-modal'))
     document.getElementById("modal-title").innerText = user.id ? "Edit User" : "Add User"
