@@ -140,7 +140,7 @@ function run() {
 
         let all = boys.concat(girls);
 
-        console.log("CONCATINATED ARRAY OF boys + girls");
+        console.log("CONCATENATED ARRAY OF boys + girls");
         console.log(all);
 //c
         let allComma = all.join(",");
