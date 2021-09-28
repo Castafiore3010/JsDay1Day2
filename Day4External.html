@@ -93,10 +93,11 @@
     {id: 101, age: 34, name: "Cecile Benson", gender: "female", email: "cecilebenson@jumpstack.com"}
   ]
 
+
   const URL = "http://localhost:3333/api/users"; // for class
   function setUpHandlers() {
     document.getElementById("user-table-body").onclick = handleTableClick
-    document.getElementById("btn-save").onclick = saveUser
+    document.getElementById("btn-save").onclick = saveUser // both POST (create) and PUT
     document.getElementById("btn-add-user").onclick = makeNewUser
     document.getElementById('btn-get-user').onclick = getUser
     document.getElementById('btn-del-user').onclick = deleteUser
