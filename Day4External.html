@@ -110,12 +110,25 @@
     evt.stopPropagation()
     const target = evt.target;
 
-    if (target.dataset.isDelete) {
+    if (target.dataset.idDelete) {
       alert("Delete "+target.dataset.idDelete)
+      let id = target.dataset.idDelete;
+      let options = makeOptions("DELETE");
+      fetch(URL + "/" + id, options)
+              .then(handleHttpErrors)
+              .then(() => {
+                fetchUsers();
+              }).catch(err => {
+        console.log(err);
+
+      })
+
     }
 
-    if (target.dataset.isEdit) {
-      alert(JSON.parse(target.dataset.dataEdit))
+    if (target.dataset.dataEdit) {
+      alert(target.dataset.dataEdit)
+      getUser(JSON.parse(target.dataset.dataEdit).id, true);
+
 
     }
   }
@@ -149,9 +162,11 @@
 
   }
 
-  function getUser() {
+  function getUser(id, bool) {
 
-    let id = document.getElementById('input-id').value;
+    if (!bool) {
+      id = document.getElementById('input-id').value;
+    }
     if (id === "") {
       alert("Please enter id")
     } else {
@@ -227,7 +242,7 @@
   function makeRows(array) {
     //make rows from data
       return array.map(user =>
-              `<tr><td>${user.id}</td><td>${user.age}</td><td>${user.name}</td><td>${user.gender}</td><td>${user.email}</td></tr>`).join("");
+              `<tr><td>${user.id}</td><td>${user.age}</td><td>${user.name}</td><td>${user.gender}</td><td>${user.email}</td><td><a data-id-delete=${user.id} href="#">Delete</a></td><td><a data-data-edit='${JSON.stringify(user)}' href="#">Edit</a></td></tr>`).join("");
 
   }
 
