@@ -162,9 +162,9 @@
 
   }
 
-  function getUser(id, bool) {
+  function getUser(id, tableRowClicked) {
 
-    if (!bool) {
+    if (!tableRowClicked) {
       id = document.getElementById('input-id').value;
     }
     if (id === "") {
