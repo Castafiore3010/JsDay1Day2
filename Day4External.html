@@ -122,7 +122,7 @@
       fetch(URL + "/" + id, options)
               .then(handleHttpErrors)
               .then(() => {
-                makeTableFromLocalArray();
+
               }).catch(err => {
         console.log(err);
 
@@ -150,7 +150,8 @@
   }
 
 
-  function getUserButtonEvent() {
+  function getUserButtonEvent(evt) {
+    evt.preventDefault();
     let id = JSON.parse(document.getElementById('input-id').value);
     let x = users.filter(user => user.id === id);
     let user = x[0];
