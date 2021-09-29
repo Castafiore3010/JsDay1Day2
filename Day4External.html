@@ -97,7 +97,7 @@
     document.getElementById("user-table-body").onclick = handleTableClick
     document.getElementById("btn-save").onclick = saveUser // both POST (create) and PUT
     document.getElementById("btn-add-user").onclick = makeNewUser
-    document.getElementById('btn-get-user').onclick = getUser
+    document.getElementById('btn-get-user').onclick = getUserButtonEvent
 
     document.getElementById('bodyTest').onload = fetchUsers
   }
@@ -133,7 +133,7 @@
 
     if (target.dataset.dataEdit) {
       alert(target.dataset.dataEdit)
-      getUser(JSON.parse(target.dataset.dataEdit).id, true);
+      getUser(JSON.parse(target.dataset.dataEdit).id);
 
 
     }
@@ -150,31 +150,24 @@
   }
 
 
+  function getUserButtonEvent() {
+    let id = JSON.parse(document.getElementById('input-id').value);
+    let x = users.filter(user => user.id === id);
+    let user = x[0];
+    if (x.length < 1) {
+      document.getElementById('helperP').innerHTML = "USER DOESNT EXIST";
+    }
+    showModal(user);
+  }
+
 
 
   //getmapping
-  function getUser(id, tableRowClicked) {
+  function getUser(id) {
 
-    if (!tableRowClicked) {
-      id = document.getElementById('input-id').value;
-    }
-    if (id === "") {
-      alert("Please enter id")
-    } else {
-
-      fetch(URL + "/" + id)
-              .then(handleHttpErrors)
-              .then(data => {
-                const user444 = {id: data.id, age: data.age, name: data.name, gender: data.gender, email: data.email}
-
-                showModal(user444)
-              }).catch(err => {
-                console.log(err);
-
-      })
-
-
-    }
+    let x = users.filter(user => user.id === id);
+    let user = x[0]
+    showModal(user)
 
 
   }
