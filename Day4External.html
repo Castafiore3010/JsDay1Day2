@@ -37,9 +37,7 @@
 <button type="button" class="btn btn-secondary" id="btn-get-user">
   Get user
 </button>
-<button type="button" class="btn btn-secondary" id="btn-del-user">
-  Delete user
-</button>
+
 <input type="text" placeholder="Enter id" id="input-id">
 <p id="add-error-msg" class="alert alert-danger" style="max-width: 50%;display: none;" role="alert"></p>
 
@@ -82,15 +80,15 @@
 </div>
 <!--END OF MODAL -->
 
+<p id="hacks"></p>
 <p id="helperP"></p>
 </body>
 </html>
 
 <script>
-  let nextId = 200;
+
   let users = [
-    {id: 100, age: 39, name: "Madeleine Flynn", gender: "female", email: "madeleineflynn@jumpstack.com"},
-    {id: 101, age: 34, name: "Cecile Benson", gender: "female", email: "cecilebenson@jumpstack.com"}
+
   ]
 
 
@@ -100,7 +98,7 @@
     document.getElementById("btn-save").onclick = saveUser // both POST (create) and PUT
     document.getElementById("btn-add-user").onclick = makeNewUser
     document.getElementById('btn-get-user').onclick = getUser
-    document.getElementById('btn-del-user').onclick = deleteUser
+
     document.getElementById('bodyTest').onload = fetchUsers
   }
   setUpHandlers()
@@ -110,18 +108,26 @@
     evt.stopPropagation()
     const target = evt.target;
 
-    if (target.dataset.idDelete) {
-      alert("Delete "+target.dataset.idDelete)
-      let id = target.dataset.idDelete;
+    if (target.dataset.dataDelete) {
+      alert("Delete "+target.dataset.dataDelete)
+      let targetedUser = JSON.parse(target.dataset.dataDelete);
       let options = makeOptions("DELETE");
+      let id = targetedUser.id;
+      users.forEach(user => {
+        if (user.id === id) {
+          users.splice(users.indexOf(user), 1);
+        }
+      })
+
       fetch(URL + "/" + id, options)
               .then(handleHttpErrors)
               .then(() => {
-                fetchUsers();
+                makeTableFromLocalArray();
               }).catch(err => {
         console.log(err);
 
       })
+      makeTableFromLocalArray();
 
     }
 
@@ -143,25 +149,10 @@
     })
   }
 
-  function deleteUser() {
-    let id = document.getElementById('input-id').value;
-    let options = makeOptions("DELETE");
-    if (id === "") {
-      alert("Please enter id")
-    } else {
 
-      fetch(URL + "/" + id, options)
-              .then(handleHttpErrors)
-              .then(() => {
-                fetchUsers();
-              }).catch(err => {
-        console.log(err);
 
-      })
-    }
 
-  }
-
+  //getmapping
   function getUser(id, tableRowClicked) {
 
     if (!tableRowClicked) {
@@ -199,6 +190,9 @@
     myModal.show()
   }
 
+
+
+  //post/put
   function saveUser() {
     const user = {}
     user.id = Number(document.getElementById("user-id").innerText)
@@ -206,13 +200,25 @@
     user.name = document.getElementById("input-name").value
     user.gender = document.getElementById("input-gender").value
     user.email = document.getElementById("input-email").value
+
+    document.getElementById('helperP').innerHTML = JSON.stringify(user);
     let options;
-    if (document.getElementById('user-id').innerText.length < 1) {
+    if (user.id === 0) {
       options = makeOptions("POST", user);
-      fetch(URL, options).then(handleHttpErrors).then(() => fetchUsers());
+      fetch(URL, options).then(handleHttpErrors).then(() => {
+        let x = users.map(user => user.id);
+        user.id = x.reduce((cur, prev) =>  {return Math.max(cur, prev);}) + 1;
+        users.push(user);
+
+        makeTableFromLocalArray()
+      });
+
     } else {
       options = makeOptions("PUT", user);
-      fetch(URL + "/" + user.id, options).then(handleHttpErrors).then(() => fetchUsers());
+      fetch(URL + "/" + user.id, options).then(handleHttpErrors).then(() => {
+        users = users.map(x => x.id === user.id ? user : x);
+        makeTableFromLocalArray();
+    });
     }
 
 
@@ -226,23 +232,35 @@
 
   }
 
+
+
+  //getAll
   function fetchUsers() {
+
 
     fetch(URL)
     .then(res => res.json())
     .then(data => {
-      const user = makeRows(data);
-      document.getElementById('user-table-body').innerHTML = user;
+
+      data.forEach(user => users.push(user))
+      makeTableFromLocalArray()
+
 
     })
     // Todo  --> This is one of the things we will do in the class
 
   }
 
+  function makeTableFromLocalArray() {
+    document.getElementById('user-table-body').innerHTML = makeRows(users);
+
+
+  }
+
   function makeRows(array) {
     //make rows from data
       return array.map(user =>
-              `<tr><td>${user.id}</td><td>${user.age}</td><td>${user.name}</td><td>${user.gender}</td><td>${user.email}</td><td><a data-id-delete=${user.id} href="#">Delete</a></td><td><a data-data-edit='${JSON.stringify(user)}' href="#">Edit</a></td></tr>`).join("");
+              `<tr><td>${user.id}</td><td>${user.age}</td><td>${user.name}</td><td>${user.gender}</td><td>${user.email}</td><td><a data-data-delete='${JSON.stringify(user)}' href="#">Delete</a></td><td><a data-data-edit='${JSON.stringify(user)}' href="#">Edit</a></td></tr>`).join("");
 
   }
 

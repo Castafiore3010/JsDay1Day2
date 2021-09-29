@@ -141,6 +141,7 @@
 <p id="load"></p>
 
 <div id="form-container"></div>
+
 <table id="searchTable">
     <caption>Cars</caption>
     <thead>
@@ -218,7 +219,6 @@
   document.getElementById('priceHeader').onclick = (evt) => {
       evt.preventDefault();
       if (priceClickCounter % 2 === 0) {
-
           let x = makeTable(cars.sort((first, second) => first.price - second.price));
           document.getElementById('tableBody1').innerHTML = x;
           priceClickCounter++;
