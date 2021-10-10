@@ -259,7 +259,7 @@
 
 
   let lastTargetString ="";
-
+  let countTarget = 0;
   let lastTarget = [];
   function handleCountryClick(evt) {
 
@@ -296,27 +296,35 @@
      */
 
 
-    //countryCodes.forEach(country => country === id ? document.getElementById())
 
 
-    console.log(lastTarget);
+
+
     if (lastTarget.length === 0) {
-      console.log("LENGTH 0 HELLO")
+
       lastTarget.push(id);
       target.style.fill = 'cornflowerblue';
+      countTarget++;
     } else {
 
       lastTarget.push(id);
       document.getElementById(lastTarget[lastTarget.length - 2]).style.fill = "#dcdcdc";
       target.style.fill = 'cornflowerblue';
+      countTarget++;
+    }
+
+    console.log(lastTarget);
+
+    if (countTarget === 3) {
+      countTarget = 0;
+      lastTarget.forEach(() => lastTarget.shift());
     }
 
 
 
 
-
-
   }
+
 
 
   function handleHttpErrors(res) {
